@@ -1,13 +1,18 @@
 const express=require('express');
-const session = require("express-session");
+
 const router = express.Router();
 const path = require("path");
 const adminAuth = require("../middleware/adminAuth");
-const User=require("../models/userSchema");
-const bcrypt = require('bcrypt');
-const { adminPage, userDelete, searching, userEdit, updateEdit, userAddPage, userAdd } = require('../controllers/adminController');
 
 
+const { adminPage, userDelete, searching, userEdit, updateEdit, userAddPage, userAdd,adminLoginpage, adminLogin } = require('../controllers/adminController');
+const { userRegisterValidation, validatee } = require('../middleware/validation');
+const noCacheMiddleware = require('../middleware/noCache');
+
+
+router.get("/adminLogin",noCacheMiddleware,adminLoginpage)
+
+router.post('/adminLogin',adminLogin)
 
  router.get("/",adminAuth, adminPage);
 
@@ -21,7 +26,7 @@ router.post("/search",adminAuth, searching);
 
 router.get("/addUser",adminAuth,userAddPage)
 
- router.post("/addUser",adminAuth,userAdd)
+ router.post("/addUser",userRegisterValidation,validatee,adminAuth,userAdd)
 
 
 

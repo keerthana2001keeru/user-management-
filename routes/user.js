@@ -5,19 +5,17 @@ const path = require("path");
 const User=require("../models/userSchema")
 const{ loginpage, registerPage, homePage, logout, userRegister, userLogin}= require('../controllers/userController');
 const userAuth = require("../middleware/userAuth")
+const { userRegisterValidation, validate } = require('../middleware/validation');
+const noCacheMiddleware = require('../middleware/noCache');
 
-// router.get('/',(req,res)=>{
-//     res.send('sdcvbnm')
 
-// })
+router.get('/',noCacheMiddleware,loginpage)
 
-router.get('/',loginpage)
-
-router.get('/register',registerPage)
+router.get('/register',noCacheMiddleware,registerPage)
 
 router.get('/home', userAuth ,homePage)
 
-router.post('/register',userRegister)
+router.post('/register',userRegisterValidation,validate,userRegister)
   
 router.post('/login',userLogin)
 
