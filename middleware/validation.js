@@ -59,16 +59,23 @@ const userRegisterValidation = [
 const validate = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).render('register', { errorMessage: errors.array()[0].msg });
+    return res.status(400).render('register', { errorMessage: errors.array()[0].msg ,formData:req.body});
   }
   next();
 };
 const validatee = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).render('adduser', { errorMessage: errors.array()[0].msg });
+    return res.status(400).render('adduser', { errorMessage: errors.array()[0].msg ,formData:req.body});
+  }
+  next();
+};
+const validat = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).render('editUser', { errorMessage: errors.array()[0].msg ,formData:req.body});
   }
   next();
 };
 
-module.exports = { userRegisterValidation, validate ,validatee};
+module.exports = { userRegisterValidation, validate ,validatee,validat};

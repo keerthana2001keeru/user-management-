@@ -1,10 +1,6 @@
-#userloginformdiv{
-  background-color: #8EC5FC;
-background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
 
-}
 .table td, .table th {
-  padding: .75rem;
+  padding: 1.0rem 2.0rem;
   vertical-align: middle;
 }
 
@@ -547,7 +543,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   /*-- responsive-design --*/
   @media(max-width:1440px) {
     input[type="text"], input[type="email"], input[type="password"] {
-      width: 94%;
+      width: 100%;
     }
   }
   

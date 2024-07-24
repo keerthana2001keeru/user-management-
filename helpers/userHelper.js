@@ -4,7 +4,13 @@ const bcrypt = require("bcrypt");
 async function findUserByEmail(email) {
   return await User.findOne({ email: email,isDeleted:false });
 }
-
+async function findUserById(id) {
+  try {
+    return await User.findById(id).lean();
+  } catch (error) {
+    throw new Error("Error finding user by ID: " + error.message);
+  }
+}
 async function createUser(  { fullName, phone, email, hashedPassword }) {
   if (!hashedPassword) {
     throw new Error('Password is required');
@@ -59,6 +65,17 @@ async function findUsersWithPagination(query, limit, skip) {
 async function countUsers(query) {
   return await User.countDocuments(query);
 }
+async function searchUsers(keyword) {
+  try {
+    return await User.find({
+      fullName: { $regex: `^${keyword}`, $options: 'i' },
+      isDeleted: false
+    }).lean();
+  } catch (error) {
+    throw new Error("Error searching users: " + error.message);
+  }
+}
+
 module.exports = {
   findUserByEmail,
   createUser,
@@ -66,5 +83,7 @@ module.exports = {
   deleteUserById,
   updateUserById,
   countUsers,
-  findUsersWithPagination
+  findUsersWithPagination,
+  findUserById,
+  searchUsers
 };

@@ -18,7 +18,7 @@ async function adminLogin(req, res, next) {
   try {
     const { email, password } = req.body;
     const admin = await adminHandler.findAdminByEmail(email);
-   console.log(req.body);
+   
        if (admin) {
       // Compare the plain text password with the hashed password using bcrypt
       const passwordMatch = await bcrypt.compare( password,admin.password);
@@ -97,24 +97,36 @@ async function userDelete(req,res,next){
   async function searching(req,res,next){
     try{
     const word = req.body.keyword;
-    const allUsers = await User.find({
-      fullName: { $regex: `^${word}`, $options: 'i' },isDeleted:false}).lean();
+    const allUsers = await userHandler.searchUsers(word);
+    
       res.render('admin',{user:allUsers})
   }catch(err){
   next(err);
   }
   }
 
-  async function userEdit(req,res,next){
-    try{
+  // async function userEdit(req,res,next){
+  //   try{
     
-    const userId = req.params.id
-    const user = await User.findOne({_id:userId}).lean()
-   res.render("editUser", {data:user});
-   }catch(err){
-    next(err)
-   }
-   }
+  //   const userId = req.params.id
+  //   const user = await User.findOne({_id:userId}).lean()
+  //  res.render("editUser", {data:user});
+  //  }catch(err){
+  //   next(err)
+  //  }
+  //  }
+
+  async function userEdit(req,res,next){
+      try{
+      
+       const userId = req.params.id
+      const user = await userHandler.findUserById(userId);
+      res.render("editUser", {data:user});
+      }catch(err){
+       next(err)
+      }
+    
+    }
    async function updateEdit(req,res,next){
     try{
     const stringId = req.params.id;
@@ -122,22 +134,15 @@ async function userDelete(req,res,next){
     const fullName= req.body.fullName.trim();
     const phone = req.body.phone.trim();
     const email =req.body.email.trim();
-
-    
     if (!fullName|| !phone|| !email) {
-      return res.render("editUser", {errorMessage: "All fields required"})
+      return res.render("editUser", {errorMessage: "All fields required",formData:req.body})
     }
-    
-   
-    const updateUser = await userHandler.updateUserById(userId,{fullName,phone,email,})
-
+    const updateUser = await userHandler.updateUserById(userId,{fullName,phone,email})
 if(updateUser){
     res.redirect("/admin");
    }}catch(err){
     next(err);
       }   }
-
-
    const userAddPage = (req,res)=>{
     res.render("adduser")
     }
@@ -146,13 +151,14 @@ if(updateUser){
         const { fullName, phone, email, password } = req.body;
        
         if (!fullName  || !phone || !email || !password) {
-          return res.render("adduser", {errorMessage: "All fields required"})
+          return res.render("adduser", {errorMessage: "All fields required",formData:req.body})
         }
     
         const existingUser= await userHandler.findUserByEmail(email);
         if (existingUser){
           return res.render("adduser", {
             errorMessage: "User already exists",
+            formData:req.body
           });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -176,7 +182,7 @@ if(updateUser){
        
     }catch(err){
       if (err.name === "ValidationError") {
-        return res.render("addUser", { errorMessage: err.message });
+        return res.render("addUser", { errorMessage: err.message,formData:req.body });
       }
       next(err)
     

@@ -13,7 +13,7 @@ const loginpage = function (req, res) {
   //   return res.redirect("/admin");
   // }
    else {
-    return res.render("login");
+    return res.render("login",{formData:{}});
   }
   
 };
@@ -22,7 +22,7 @@ const registerPage = function (req, res) {
   if (req.session.loggedIn) {
     return res.redirect("/home");
   } else {
-    return res.render("register");
+    return res.render("register",{formData:{}});
   }
 };
 
@@ -33,6 +33,7 @@ async function userRegister(req, res, next) {
     if (!fullName || !phone || !email || !password) {
       return res.render("register", {
         errorMessage: "All fields are required",
+        formData:req.body
       });
     }
 
@@ -40,6 +41,7 @@ async function userRegister(req, res, next) {
     if (existingUser) {
       return res.render("register", {
         errorMessage: "User already exists, kindly login",
+        formData:req.body
       });
     }
 
@@ -59,7 +61,9 @@ async function userRegister(req, res, next) {
     return res.redirect("/home");
   } catch (err) {
     if (err.name === "ValidationError") {
-      return res.render("register", { errorMessage: err.message });
+      const { fullName, phone, email, password } = req.body;
+      console.log(req.body);
+      return res.render("register", { errorMessage: err.message, formData :req.body});
     }
     next(err);
   }
