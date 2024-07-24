@@ -15,6 +15,7 @@
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.1/mdb.min.css" rel="stylesheet" />
     <!-- Custom CSS -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
     html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, dl, dt, dd, ol, nav ul, nav li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
     margin: 0;
@@ -789,13 +790,15 @@
 		<div class="main-agileinfo">
 			<div class="agileits-top">
 				<form action="/admin/addUser/" method="post">
-					<input class="text" type="text" name="fullName" placeholder="Username" required="">
-					 {{!-- <input class="text w3lpass" type="text" name="gender" placeholder="Gender"required=""> --}}
-           <input class="text" type="text"  name="phone" placeholder="Mobile Number" required="">
-          <input class="text email" type="email" name="email" placeholder="Email" required="">
-					<input class="text" type="password" name="password" placeholder="Password" required="">
+					<input class="text" type="text" name="fullName" placeholder="Username" required=""value="{{formData.fullName}}">
+					 
+            <input class="text email" type="email" name="email" placeholder="Email" required="" value="{{formData.email}}">
+            {{!-- <input class="text w3lpass" type="text" name="gender" placeholder="Gender"required=""> --}}
+           <input class="text" type="text"  name="phone" placeholder="Mobile Number" required="" value="{{formData.phone}}">
+         
+					<input class="text w3lpass" type="password" name="password" placeholder="Password" required="" value="{{formData.password}}">
 					    <br/>  
-               <p class="text-danger">{{errorMessage}}</p> 
+               {{!-- <p class="text-danger">{{errorMessage}}</p>  --}}
 					<input type="submit" value="Add User">
 				</form>
 			
