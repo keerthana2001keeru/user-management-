@@ -32,7 +32,7 @@ async function userRegister(req, res, next) {
 
     if (!fullName || !phone || !email || !password) {
       return res.render("register", {
-        errorMessage: "All fields are required",
+        // errorMessage: "All fields are required",
         formData:req.body
       });
     }
@@ -61,8 +61,6 @@ async function userRegister(req, res, next) {
     return res.redirect("/home");
   } catch (err) {
     if (err.name === "ValidationError") {
-      const { fullName, phone, email, password } = req.body;
-      console.log(req.body);
       return res.render("register", { errorMessage: err.message, formData :req.body});
     }
     next(err);
@@ -83,12 +81,10 @@ async function userLogin(req, res, next) {
       );
 
       if (passwordMatch) {
-       
-        req.session.user = user || null;
-        req.session.admin = admin || null;
+        req.session.user = user ;
         req.session.loggedIn = true;
         req.session.username = currentUser.fullName;
-        return res.redirect(user ? "/home" : "/admin");
+        return res.redirect( "/home");
       } else {
         
         return res.render("login", { errorMessage: "Invalid password" });
@@ -111,6 +107,7 @@ const homePage = function (req, res) {
 };
 
 const logout = function (req, res) {
+  res.setHeader("Cache-Control", "no-cache, no-store , must-revalidate");
   req.session.destroy();
   res.redirect("/");
 };

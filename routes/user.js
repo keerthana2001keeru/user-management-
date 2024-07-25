@@ -13,7 +13,7 @@ router.get('/',noCacheMiddleware,loginpage)
 
 router.get('/register',noCacheMiddleware,registerPage)
 
-router.get('/home', userAuth ,homePage)
+router.get('/home', userAuth ,noCacheMiddleware,homePage)
 
 router.post('/register',userRegisterValidation,validate,userRegister)
   

@@ -28,6 +28,30 @@ const userRegisterValidation = [
     .withMessage('Password is required.')
 ];
 
+
+const userRegisterValidate = [
+  check('fullName')
+    .isLength({ min: 3, max: 64 })
+    .withMessage('Full name must be between 3 and 64 characters long.')
+    .trim()
+    .not().isEmpty()
+    .withMessage('Full name is required.'),
+  check('phone')
+    .isLength({ min: 8, max: 12 })
+    .withMessage('Phone number must be between 8 and 12 digits.')
+    .isNumeric()
+    .withMessage('Phone number must contain only digits.')
+    .trim()
+    .not().isEmpty()
+    .withMessage('Phone number is required.'),
+  check('email')
+    .isEmail()
+    .withMessage('Please provide a valid email.')
+    .trim()
+    .not().isEmpty()
+    .withMessage('Email is required.'),
+ 
+];
 // const adminRegisterValidation = [
 //   check('fullName')
 //     .isLength({ min: 3, max: 64 })
@@ -73,9 +97,9 @@ const validatee = (req, res, next) => {
 const validat = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).render('editUser', { errorMessage: errors.array()[0].msg ,formData:req.body});
+    return res.status(400).render('editUser', { errorMessage: errors.array()[0].msg ,data:req.body});
   }
   next();
 };
 
-module.exports = { userRegisterValidation, validate ,validatee,validat};
+module.exports = { userRegisterValidation, validate ,validatee,validat,userRegisterValidate};

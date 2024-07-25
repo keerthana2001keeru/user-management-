@@ -1,8 +1,7 @@
 const User = require("../models/userSchema");
-const bcrypt = require("bcrypt");
 
 async function findUserByEmail(email) {
-  return await User.findOne({ email: email,isDeleted:false });
+  return await User.findOne({ email: email, isDeleted: false });
 }
 async function findUserById(id) {
   try {
@@ -11,44 +10,40 @@ async function findUserById(id) {
     throw new Error("Error finding user by ID: " + error.message);
   }
 }
-async function createUser(  { fullName, phone, email, hashedPassword }) {
+async function createUser({ fullName, phone, email, hashedPassword }) {
   if (!hashedPassword) {
-    throw new Error('Password is required');
+    throw new Error("Password is required");
   }
-  // const hashedpassword = await bcrypt.hash(password, 10);
-  const password=hashedPassword;
-  // const user = new User({
-  //   fullName,
-  //   phone,
-  //   email,
-  //    hashedpassword,
-  // });
-  // console.log("ccc")
-  return await User.create({fullName,
+  
+  const password = hashedPassword;
+ 
+  return await User.create({
+    fullName,
     phone,
     email,
-     password,
-    isDeleted:false});
+    password,
+    isDeleted: false,
+  });
 }
 
-async function findAllUsers(page=1,limit=3) {
-  const skip = (page - 1)* limit;
+async function findAllUsers(page = 1, limit = 5) {
+  const skip = (page - 1) * limit;
   const users = await User.find({ isDeleted: false })
-  .skip(skip)
-  .limit(limit)
-  .lean();
+    .skip(skip)
+    .limit(limit)
+    .lean();
   const totalUsers = await User.countDocuments({ isDeleted: false });
 
   return {
     users,
     totalPages: Math.ceil(totalUsers / limit),
-    currentPage: page
+    currentPage: page,
   };
   // return await User.find({isDeleted:false}).lean();
 }
 
 async function deleteUserById(userId) {
-  return await User.findByIdAndUpdate( userId ,{isDeleted:true});
+  return await User.findByIdAndUpdate(userId, { isDeleted: true });
 }
 
 async function updateUserById(userId, updateData) {
@@ -68,8 +63,8 @@ async function countUsers(query) {
 async function searchUsers(keyword) {
   try {
     return await User.find({
-      fullName: { $regex: `^${keyword}`, $options: 'i' },
-      isDeleted: false
+      fullName: { $regex: `^${keyword}`, $options: "i" },
+      isDeleted: false,
     }).lean();
   } catch (error) {
     throw new Error("Error searching users: " + error.message);
@@ -85,5 +80,5 @@ module.exports = {
   countUsers,
   findUsersWithPagination,
   findUserById,
-  searchUsers
+  searchUsers,
 };

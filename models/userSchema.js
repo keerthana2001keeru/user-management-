@@ -10,12 +10,12 @@ const userSchema = new mongoose.Schema({
   phone:{
     type:String,
     required: true,
-    validate: {
-      validator: function(v) {
-        return /^[0-9]{8,12}$/.test(v) && !/^0+$/.test(v);
-      },
+    // validate: {
+    //   validator: function(v) {
+    //     return /^[0-9]{8,12}$/.test(v) && !/^0+$/.test(v);
+    //   },
       // message: "Phone number must be between 8 to 12 digits and cannot be all zeros"
-    }
+    //}
   },
   email:{
     type:String,
@@ -28,7 +28,10 @@ const userSchema = new mongoose.Schema({
     type:String,
     required:true
   },
-  isDeleted: { type: Boolean, default: false }
+  isDeleted: {
+     type: Boolean,
+     default: false 
+  }
 })
 
 module.exports = mongoose.model("User", userSchema);

@@ -6,9 +6,10 @@
 			<div class="agileits-top">
 				<form action="/admin/adminLogin" method="post">
 					
-          <input class="text email" type="email" name="email" placeholder="Email" required="">
-					<input class="text" type="password" name="password" placeholder="Password" required="">
-					<br/>       <p class="text-danger">{{errorMessage}}</p>
+          <input class="text email" type="email" name="email" placeholder="Email" required=""value="{{formData.email}}">
+					<input class="text" type="password" name="password" placeholder="Password" required=""value="{{formData.password}}">
+					<br/>   
+					    {{!-- <p class="text-danger">{{errorMessage}}</p> --}}
 					<input type="submit" value="Login">
 				</form>
 				
