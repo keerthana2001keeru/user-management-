@@ -14,7 +14,7 @@ const port = process.env.PORT ||3000;
 const adminRouter = require("./routes/admin");
 const userRouter = require("./routes/user");
 const errorHandler = require('./middleware/errorHandler'); // Import the error handler
-require('./config/connection')
+const connectDb = require('./config/connection')
 // Middleware
 app.use(morgan('dev'));
 app.use(cookieParser());
@@ -41,8 +41,10 @@ app.use('/admin',express.static(path.join(__dirname,"public")));
 
 app.use("/admin", adminRouter);
 app.use("/", userRouter);
-// Use the error handler middleware
+
 app.use(errorHandler);
+
+connectDb()
 // Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

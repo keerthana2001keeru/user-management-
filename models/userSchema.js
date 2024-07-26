@@ -4,8 +4,8 @@ const userSchema = new mongoose.Schema({
     type:String,
     required: true,
     minlength: [3, "Full name must be at least 3 characters long"],
-    maxlength: [64, "Full name cannot be longer than 64 characters"]
-  
+    maxlength: [64, "Full name cannot be longer than 64 characters"],
+  trim:true
   },
   phone:{
     type:String,
