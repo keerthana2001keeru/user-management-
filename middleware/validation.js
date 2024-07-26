@@ -29,7 +29,7 @@ const userRegisterValidation = [
 ];
 
 
-const userRegisterValidate = [
+const userUpdateValidate = [
   check('fullName')
     .isLength({ min: 3, max: 64 })
     .withMessage('Full name must be between 3 and 64 characters long.')
@@ -102,4 +102,4 @@ const validat = (req, res, next) => {
   next();
 };
 
-module.exports = { userRegisterValidation, validate ,validatee,validat,userRegisterValidate};
+module.exports = { userRegisterValidation, validate ,validatee,validat,userUpdateValidate};

@@ -19,6 +19,7 @@ const loginpage = function (req, res) {
 };
 
 const registerPage = function (req, res) {
+  res.setHeader("Cache-Control", "no-cache, no-store , must-revalidate");
   if (req.session.loggedIn) {
     return res.redirect("/home");
   } else {
@@ -61,7 +62,8 @@ async function userRegister(req, res, next) {
     return res.redirect("/home");
   } catch (err) {
     if (err.name === "ValidationError") {
-      return res.render("register", { errorMessage: err.message, formData :req.body});
+      return res.render("register",
+         { errorMessage: err.message, formData :req.body});
     }
     next(err);
   }
@@ -71,8 +73,8 @@ async function userLogin(req, res, next) {
     const { email, password } = req.body;
 
     const user = await userHandler.findUserByEmail(email);
-    const admin = await adminHandler.findAdminByEmail(email);
-    const currentUser = user || admin;
+    
+    const currentUser = user;
     if (currentUser) {
       // Compare the plain text password with the hashed password using bcrypt
       const passwordMatch = await bcrypt.compare(
@@ -87,11 +89,11 @@ async function userLogin(req, res, next) {
         return res.redirect( "/home");
       } else {
         
-        return res.render("login", { errorMessage: "Invalid password" });
+        return res.render("login", { errorMessage: "Invalid password",formData:req.body });
       }
     } else {
       
-      return res.render("login", { errorMessage: "User not found" });
+      return res.render("login", { errorMessage: "User not found" , formData:req.body});
      
     }
   } catch (err) {
@@ -99,6 +101,7 @@ async function userLogin(req, res, next) {
   }
 }
 const homePage = function (req, res) {
+  res.setHeader("Cache-Control", "no-cache, no-store , must-revalidate");
   if (req.session.loggedIn) {
     res.render("home");
   } else {

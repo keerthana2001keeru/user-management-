@@ -25,10 +25,10 @@ async function adminLogin(req, res, next) {
         req.session.username = admin.fullName;
         return res.redirect("/admin");
       } else {
-        return res.render("adminLogin", { errorMessage: "Invalid password" });
+        return res.render("adminLogin", { errorMessage: "Invalid password",formData:req.body });
       }
     } else {
-      return res.render("adminLogin", { errorMessage: "Admin not found" });
+      return res.render("adminLogin", { errorMessage: "Admin not found",formData:req.body });
     }
   } catch (err) {
     next(err);
@@ -68,11 +68,11 @@ async function adminPage(req, res, next) {
 async function userDelete(req, res, next) {
   try {
     const userId = req.params.id;
-    console.log(userId);
+   // console.log(userId);
     const deletedUser = await userHandler.deleteUserById(userId, {
       isDeleted: true,
     });
-    console.log(deletedUser);
+   // console.log(deletedUser);
     if (deletedUser) {
       res.redirect("/admin");
     } else {
@@ -126,18 +126,19 @@ async function userEdit(req, res, next) {
 async function updateEdit(req, res, next) {
   try {
     const { fullName, phone, email } = req.body;
-
+    const userId = req.params.id;
     if (!fullName || !phone || !email) {
       return res.render("editUser", {
         // errorMessage: "All fields required",
         data: req.body,
       });
     }
-
+    console.log("hhh",userId)
     const updateUser = await userHandler.updateUserById(userId, {
       fullName,
       phone,
       email,
+      
     });
     if (updateUser) {
        res.redirect("/admin");
@@ -165,7 +166,7 @@ async function userAdd(req, res, next) {
     if (existingUser) {
       return res.render("adduser", {
         errorMessage: "User already exists",
-        formData: req.body,
+        formData: req.body
       });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -174,11 +175,11 @@ async function userAdd(req, res, next) {
       fullName,
       phone,
       email,
-      hashedPassword,
+      hashedPassword
     });
 
     req.session.user = user;
-    req.session.loggedIn = true;
+    // req.session.loggedIn = true;
     req.session.fullName = fullName;
     if (user) {
       req.user = user;
@@ -188,7 +189,7 @@ async function userAdd(req, res, next) {
     if (err.name === "ValidationError") {
       return res.render("addUser", {
         errorMessage: err.message,
-        formData: req.body,
+        formData: req.body
       });
     }
     next(err);

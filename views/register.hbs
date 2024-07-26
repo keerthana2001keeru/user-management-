@@ -1,5 +1,5 @@
 
-<section>
+{{!-- <section>
   	<div class="main-w3layouts wrapper">
 		<h1 class="fw-600"><b>Create an Account</b></h1>
 		<div class="main-agileinfo">
@@ -11,7 +11,7 @@
          
 					<input class="text w3lpass" type="password" name="password" placeholder="Password" required=""value="{{formData.password}}">
 					   <br/>  
-					     {{!-- <p class="text-danger">{{errorMessage}}</p> --}}
+					    
 					<input type="submit" value="SIGNUP">
 				</form>
 				
@@ -21,4 +21,32 @@
 		
 		
 	</div>
+</section> --}}
+
+<section class="vh-100">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+          class="img-fluid" alt="Sample image">
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+		<h1 class="fw-200 mb-2"><b>Create an Account</b></h1>
+        <form action="/register" method="post">
+          					<input class="text" type="text" name="fullName" placeholder="Username" required="" value="{{formData.fullName}}">
+            <input class="text email" type="email" name="email" placeholder="Email" required="" value="{{formData.email}}">
+					 <input class="text" type="text"  name="phone" placeholder="Mobile Number" required="" value="{{formData.phone}}">
+					<input class="text w3lpass" type="password" name="password" placeholder="Password" required=""value="{{formData.password}}">
+          		<input type="submit" value="SIGNUP">
+          <div class="text-center text-lg-start">
+           
+            <p class="small fw-bold mt-2 pt-1 mb-0">Already have an account? <a href="/"
+                class="link-danger">Login Now!</a></p>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  
 </section>

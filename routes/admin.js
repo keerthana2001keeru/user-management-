@@ -6,7 +6,7 @@ const adminAuth = require("../middleware/adminAuth");
 const userAuth = require("../middleware/userAuth");
 
 const { adminPage, userDelete, searching, userEdit, updateEdit, userAddPage, userAdd,adminLoginpage, adminLogin } = require('../controllers/adminController');
-const { userRegisterValidation, validatee, validat, userRegisterValidate } = require('../middleware/validation');
+const { userRegisterValidation, validatee, validat,  userUpdateValidate } = require('../middleware/validation');
 const noCacheMiddleware = require('../middleware/noCache');
 
 
@@ -22,7 +22,7 @@ router.post("/search",adminAuth, searching);
 
  router.get("/editUser/:id",adminAuth, userEdit)
 
- router.post("/editUser/:id",userRegisterValidate,validat,adminAuth,updateEdit)
+ router.post("/editUser/:id",userUpdateValidate,validat,adminAuth,updateEdit)
 
 router.get("/addUser",adminAuth,userAddPage)
 

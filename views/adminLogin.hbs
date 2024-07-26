@@ -1,5 +1,5 @@
 
-<section>
+{{!-- <section>
   	<div class="main-w3layouts wrapper">
 		<h1><b>Admin login</b></h1>
 		<div class="main-agileinfo">
@@ -9,7 +9,7 @@
           <input class="text email" type="email" name="email" placeholder="Email" required=""value="{{formData.email}}">
 					<input class="text" type="password" name="password" placeholder="Password" required=""value="{{formData.password}}">
 					<br/>   
-					    {{!-- <p class="text-danger">{{errorMessage}}</p> --}}
+					  
 					<input type="submit" value="Login">
 				</form>
 				
@@ -17,12 +17,26 @@
 		</div>
 		
 	</div>
+</section> --}}
+<section class="vh-100">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+          class="img-fluid" alt="Sample image">
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+       <h1 class="fw-200 mb-2"><b>Admin Login</b></h2>
+       <form action="/admin/adminLogin" method="post">
+          
+            <input class="text email" type="email" name="email" placeholder="Email" required="" value="{{formData.email}}">
+					<input class="text w3lpass" type="password" name="password" placeholder="Password" required=""value="{{formData.password}}">
+          		<input type="submit" value="Login">
+          
+
+        </form>
+      </div>
+    </div>
+  </div>
+  
 </section>
-<script>
-        {% if message %}
-            toastr.success("{{message}}");
-        {% endif %}
-        {% if errorMessage %}
-            toastr.error("{{errorMessage}}");
-        {% endif %}
-    </script>
